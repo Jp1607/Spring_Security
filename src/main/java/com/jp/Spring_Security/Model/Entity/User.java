@@ -1,5 +1,6 @@
 package com.jp.Spring_Security.Model.Entity;
 
+import com.jp.Spring_Security.Model.DTO.Registration;
 import com.jp.Spring_Security.Model.Enum.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,14 +22,37 @@ public class User extends DefaultEntity implements UserDetails {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "token", nullable = false)
-    private String token;
-
-    @Column(name = "active", columnDefinition = "1", nullable = false)
-    private Boolean active = true;
+    @Column(name = "active", nullable = false)
+    private Integer active = 1;
 
     @Column(name = "role", nullable = false)
     private Role role;
+
+    public User(Registration registration){
+        this.username = registration.getUsername();
+        this.password = registration.getPassword();
+        this.role = registration.getRole();
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Integer getActive() {
+        return active;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -39,12 +63,8 @@ public class User extends DefaultEntity implements UserDetails {
         }
     }
 
-    public void setActive(Boolean active) {
+    public void setActive(Integer active) {
         this.active = active;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
     }
 
     @Override
